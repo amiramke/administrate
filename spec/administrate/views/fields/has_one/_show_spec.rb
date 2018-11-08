@@ -35,6 +35,7 @@ describe "fields/has_one/_show", type: :view do
         locals: {
           field: has_one,
           namespace: "admin",
+          engine_namespace: nil,
           resource_name: "product_meta_tag",
         },
       )

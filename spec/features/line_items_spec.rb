@@ -15,8 +15,8 @@ RSpec.describe "line item index page" do
     line_item = create(:line_item)
 
     visit admin_line_items_path
-    click_row_for(line_item)
 
+    click_row_for(line_item)
     expect(page).to have_header(displayed(line_item))
     expect(page).to have_content(displayed(line_item))
     expect(page).to have_content(displayed(line_item.product))

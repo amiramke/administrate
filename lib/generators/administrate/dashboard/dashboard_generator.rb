@@ -31,7 +31,7 @@ module Administrate
 
       def create_dashboard_definition
         location =
-          if engine_namespace?
+          if false#engine_namespace?
             "app/dashboards/#{engine_namespace}/#{file_name}_dashboard.rb"
           else
             "app/dashboards/#{file_name}_dashboard.rb"

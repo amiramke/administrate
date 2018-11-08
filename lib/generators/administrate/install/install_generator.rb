@@ -8,22 +8,22 @@ module Administrate
       include Administrate::GeneratorHelpers
       source_root File.expand_path("../templates", __FILE__)
 
-      class_option :admin_namespace, type: :string, default: "admin"
+      class_option :namespace, type: :string, default: "admin"
       class_option :engine_namespace, type: :string, required: false
 
       def run_routes_generator
         if dashboard_resources.none?
-          call_generator("administrate:routes", "--admin_namespace", admin_namespace)
+          call_generator("administrate:routes", "--namespace", namespace)
           load Rails.root.join("config/routes.rb")
         end
       end
 
       def create_dashboard_controller
         location =
-          if namespaced?
-            "app/controllers/#{engine_namespace || namespaced_path}/#{admin_namespace}/application_controller.rb"
+          if false#namespaced?
+            "app/controllers/#{engine_namespace || namespaced_path}/#{namespace}/application_controller.rb"
           else
-            "app/controllers/#{admin_namespace}/application_controller.rb"
+            "app/controllers/#{namespace}/application_controller.rb"
           end
 
         template("application_controller.rb.erb", location)
@@ -32,14 +32,18 @@ module Administrate
       def run_dashboard_generators
         singular_dashboard_resources.each do |resource|
           call_generator "administrate:dashboard", resource,
-            "--admin_namespace", admin_namespace
+            "--namespace", namespace
         end
       end
 
       private
 
-      def admin_namespace
-        options[:admin_namespace]
+      def namespace
+        options[:namespace]
+      end
+
+      def engine_namespace
+        options[:engine_namespace]
       end
 
       def singular_dashboard_resources
@@ -47,7 +51,7 @@ module Administrate
       end
 
       def dashboard_resources
-        Administrate::Namespace.new(admin_namespace, engine_namespace).resources
+        Administrate::Namespace.new(namespace, engine_namespace).resources
       end
     end
   end

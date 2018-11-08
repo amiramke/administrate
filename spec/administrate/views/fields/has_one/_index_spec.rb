@@ -26,7 +26,7 @@ describe "fields/has_one/_index", type: :view do
 
       render(
         partial: "fields/has_one/index.html.erb",
-        locals: { field: has_one, namespace: "admin" },
+        locals: { field: has_one, namespace: "admin", engine_namespace: nil },
       )
 
       expected = "<a href=\"#{product_path}\">#{product.name}</a>"
